@@ -1,0 +1,19 @@
+grpc_port: ":9000"
+http_port: ":9001"
+mongo_db:
+  url: "mongodb://admin:admin@localhost:27017"
+  db_name: "identity-authen-api"
+  collection: "authen-info"
+redis_cache:
+  address: "identity-authen-api"
+  url: "localhost:6379"
+grpc_conn:
+  address: ":11000"
+  timeout: 20s
+  access_token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl9pbmZvIjp7ImF1dGhlbnRpY2F0aW9uX2RvbmUiOnRydWUsInN1YmplY3QiOiJzZXJ2aWNlIiwiZXhwIjozMDU0MTEwMDM2LCJyb2xlIjoiYWRtaW4iLCJwZXJtaXNzaW9uX2FsbCI6dHJ1ZX0sImV4cCI6MzA1NDExMDAzNn0.vRMlXrwbSCsnJ0K78PzS2lHZ60tYxNrpZ31U6xIusqo"
+key_jwt: "thteam47"
+exp: 24h
+totp_secret: "thteam47"
+time_out_redis: 10s
+time_request_id: 5m
+time_email_otp: 5m
