@@ -1,0 +1,458 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "survey-api.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "SurveyService"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v1/survey-api/surveys/approveBySurveyId/{value}": {
+      "get": {
+        "operationId": "SurveyService_ApproveBySurveyId",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/survey_apiStringResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "value",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "ctx.accessToken",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "SurveyService"
+        ]
+      }
+    },
+    "/v1/survey-api/surveys/create": {
+      "post": {
+        "operationId": "SurveyService_CreateSurvey",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/survey_apiSurvey"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/survey_apiSurveyRequest"
+            }
+          }
+        ],
+        "tags": [
+          "SurveyService"
+        ]
+      }
+    },
+    "/v1/survey-api/surveys/deleteById/{value}": {
+      "delete": {
+        "operationId": "SurveyService_DeleteSurveyById",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/survey_apiStringResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "value",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "ctx.accessToken",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "SurveyService"
+        ]
+      }
+    },
+    "/v1/survey-api/surveys/getAll": {
+      "get": {
+        "operationId": "SurveyService_GetAll",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/survey_apiListSurveyResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "ctx.accessToken",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "data.number",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "data.limit",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "SurveyService"
+        ]
+      }
+    },
+    "/v1/survey-api/surveys/getById/{value}": {
+      "get": {
+        "operationId": "SurveyService_GetSurveyById",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/survey_apiSurvey"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "value",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "ctx.accessToken",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "SurveyService"
+        ]
+      }
+    },
+    "/v1/survey-api/surveys/getByUserCreate/{value}": {
+      "get": {
+        "operationId": "SurveyService_GetSurveyByUserCreate",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/survey_apiListSurveyResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "value",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "ctx.accessToken",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "SurveyService"
+        ]
+      }
+    },
+    "/v1/survey-api/surveys/getByUserJoin/{value}": {
+      "get": {
+        "operationId": "SurveyService_GetSurveyByUserJoin",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/survey_apiListSurveyResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "value",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "ctx.accessToken",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "SurveyService"
+        ]
+      }
+    },
+    "/v1/survey-api/surveys/updateById/{value}": {
+      "put": {
+        "operationId": "SurveyService_UpdateSurveyById",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/survey_apiStringResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "value",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "ctx": {
+                  "$ref": "#/definitions/survey_apiContext"
+                },
+                "data": {
+                  "$ref": "#/definitions/survey_apiSurvey"
+                }
+              }
+            }
+          }
+        ],
+        "tags": [
+          "SurveyService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    },
+    "survey_apiContent": {
+      "type": "object",
+      "properties": {
+        "question": {
+          "type": "string"
+        },
+        "answers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "choose": {
+          "type": "string"
+        }
+      }
+    },
+    "survey_apiContext": {
+      "type": "object",
+      "properties": {
+        "accessToken": {
+          "type": "string"
+        }
+      }
+    },
+    "survey_apiListSurveyResponse": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/survey_apiSurvey"
+          }
+        },
+        "total": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "survey_apiPagination": {
+      "type": "object",
+      "properties": {
+        "number": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "limit": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "survey_apiStringResponse": {
+      "type": "object"
+    },
+    "survey_apiSurvey": {
+      "type": "object",
+      "properties": {
+        "surveyId": {
+          "type": "string"
+        },
+        "userIdCreate": {
+          "type": "string"
+        },
+        "userIdVerify": {
+          "type": "string"
+        },
+        "userIdJoin": {
+          "type": "string"
+        },
+        "contents": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/survey_apiContent"
+          }
+        },
+        "status": {
+          "type": "string"
+        },
+        "createTime": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "updateTime": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "survey_apiSurveyRequest": {
+      "type": "object",
+      "properties": {
+        "ctx": {
+          "$ref": "#/definitions/survey_apiContext"
+        },
+        "data": {
+          "$ref": "#/definitions/survey_apiSurvey"
+        }
+      }
+    }
+  }
+}
