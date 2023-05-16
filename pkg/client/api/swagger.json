@@ -1,12 +1,12 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "identity-authen-api.proto",
+    "title": "survey-api.proto",
     "version": "version not set"
   },
   "tags": [
     {
-      "name": "IdentityAuthenService"
+      "name": "SurveyService"
     }
   ],
   "consumes": [
@@ -16,14 +16,14 @@
     "application/json"
   ],
   "paths": {
-    "/v1/identity-authen-api/forgot_password": {
+    "/v1/survey-api/{ctx.domain_id}/categories": {
       "post": {
-        "operationId": "IdentityAuthenService_ForgotPassword",
+        "operationId": "CreateCategory",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/identity_authen_apiMessageResponse"
+              "$ref": "#/definitions/survey_apiCategoryResponse"
             }
           },
           "default": {
@@ -35,27 +35,50 @@
         },
         "parameters": [
           {
+            "name": "ctx.domain_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
             "name": "body",
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/identity_authen_apiForgotPasswordRequest"
+              "type": "object",
+              "properties": {
+                "ctx": {
+                  "type": "object",
+                  "properties": {
+                    "access_token": {
+                      "type": "string"
+                    },
+                    "meta": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "data": {
+                  "$ref": "#/definitions/survey_apiCategory"
+                }
+              }
             }
           }
         ],
         "tags": [
-          "IdentityAuthenService"
+          "SurveyService"
         ]
-      }
-    },
-    "/v1/identity-authen-api/forgot_password/update": {
-      "post": {
-        "operationId": "IdentityAuthenService_UpdateForgotPassword",
+      },
+      "put": {
+        "operationId": "UpdateCategory",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/identity_authen_apiMessageResponse"
+              "$ref": "#/definitions/survey_apiCategoryResponse"
             }
           },
           "default": {
@@ -67,27 +90,110 @@
         },
         "parameters": [
           {
+            "name": "ctx.domain_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
             "name": "body",
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/identity_authen_apiUpdatePasswordRequest"
+              "type": "object",
+              "properties": {
+                "ctx": {
+                  "type": "object",
+                  "properties": {
+                    "access_token": {
+                      "type": "string"
+                    },
+                    "meta": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "data": {
+                  "$ref": "#/definitions/survey_apiCategory"
+                }
+              }
             }
           }
         ],
         "tags": [
-          "IdentityAuthenService"
+          "SurveyService"
         ]
       }
     },
-    "/v1/identity-authen-api/get_mfa/{value}": {
+    "/v1/survey-api/{ctx.domain_id}/categories/@all/fake_categories": {
+      "post": {
+        "operationId": "FakeCategories",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/survey_apiStringResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "ctx.domain_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "ctx": {
+                  "type": "object",
+                  "properties": {
+                    "access_token": {
+                      "type": "string"
+                    },
+                    "meta": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "number_category": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              }
+            }
+          }
+        ],
+        "tags": [
+          "SurveyService"
+        ]
+      }
+    },
+    "/v1/survey-api/{ctx.domain_id}/categories/@all/getAll": {
       "get": {
-        "operationId": "IdentityAuthenService_GetMfaType",
+        "operationId": "GetAllCategory",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/identity_authen_apiMfaResponse"
+              "$ref": "#/definitions/survey_apiListCategoryResponse"
             }
           },
           "default": {
@@ -98,6 +204,74 @@
           }
         },
         "parameters": [
+          {
+            "name": "ctx.domain_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "ctx.access_token",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "request_payload",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "SurveyService"
+        ]
+      }
+    },
+    "/v1/survey-api/{ctx.domain_id}/categories/get_by_recomend/{value}": {
+      "get": {
+        "operationId": "GetCategoriesByRecommendTenant",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/survey_apiListCategoryResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "ctx.domain_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
           {
             "name": "value",
             "in": "path",
@@ -105,57 +279,25 @@
             "type": "string"
           },
           {
-            "name": "ctx.accessToken",
+            "name": "ctx.access_token",
             "in": "query",
             "required": false,
             "type": "string"
           }
         ],
         "tags": [
-          "IdentityAuthenService"
+          "SurveyService"
         ]
       }
     },
-    "/v1/identity-authen-api/login": {
-      "post": {
-        "operationId": "IdentityAuthenService_Login",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/identity_authen_apiLoginResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/identity_authen_apiLoginRequest"
-            }
-          }
-        ],
-        "tags": [
-          "IdentityAuthenService"
-        ]
-      }
-    },
-    "/v1/identity-authen-api/logout": {
+    "/v1/survey-api/{ctx.domain_id}/categories/{value}": {
       "get": {
-        "operationId": "IdentityAuthenService_Logout",
+        "operationId": "GetCategory",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/identity_authen_apiMessageResponse"
+              "$ref": "#/definitions/survey_apiCategoryResponse"
             }
           },
           "default": {
@@ -167,25 +309,35 @@
         },
         "parameters": [
           {
-            "name": "ctx.accessToken",
+            "name": "ctx.domain_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "value",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "ctx.access_token",
             "in": "query",
             "required": false,
             "type": "string"
           }
         ],
         "tags": [
-          "IdentityAuthenService"
+          "SurveyService"
         ]
-      }
-    },
-    "/v1/identity-authen-api/prepare_login": {
-      "post": {
-        "operationId": "IdentityAuthenService_PrepareLogin",
+      },
+      "delete": {
+        "operationId": "DeleteCategory",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/identity_authen_apiPrepareLoginResponse"
+              "$ref": "#/definitions/survey_apiStringResponse"
             }
           },
           "default": {
@@ -197,27 +349,37 @@
         },
         "parameters": [
           {
-            "name": "body",
-            "in": "body",
+            "name": "ctx.domain_id",
+            "in": "path",
             "required": true,
-            "schema": {
-              "$ref": "#/definitions/identity_authen_apiPrepareLoginRequest"
-            }
+            "type": "string"
+          },
+          {
+            "name": "value",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "ctx.access_token",
+            "in": "query",
+            "required": false,
+            "type": "string"
           }
         ],
         "tags": [
-          "IdentityAuthenService"
+          "SurveyService"
         ]
       }
     },
-    "/v1/identity-authen-api/registers": {
+    "/v1/survey-api/{ctx.domain_id}/survey/@all/fake_surveys": {
       "post": {
-        "operationId": "IdentityAuthenService_RegisterUser",
+        "operationId": "FakeSurveys",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/identity_authen_apiMessageResponse"
+              "$ref": "#/definitions/survey_apiStringResponse"
             }
           },
           "default": {
@@ -229,39 +391,7 @@
         },
         "parameters": [
           {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/identity_authen_apiUserRegisterRequest"
-            }
-          }
-        ],
-        "tags": [
-          "IdentityAuthenService"
-        ]
-      }
-    },
-    "/v1/identity-authen-api/update_mfa/{userId}": {
-      "put": {
-        "operationId": "IdentityAuthenService_UpdateMfa",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/identity_authen_apiMessageResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "userId",
+            "name": "ctx.domain_id",
             "in": "path",
             "required": true,
             "type": "string"
@@ -274,31 +404,40 @@
               "type": "object",
               "properties": {
                 "ctx": {
-                  "$ref": "#/definitions/identity_authen_apiContext"
-                },
-                "mfas": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/definitions/identity_authen_apiMfa"
+                  "type": "object",
+                  "properties": {
+                    "access_token": {
+                      "type": "string"
+                    },
+                    "meta": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "string"
+                      }
+                    }
                   }
+                },
+                "number_survey": {
+                  "type": "integer",
+                  "format": "int32"
                 }
               }
             }
           }
         ],
         "tags": [
-          "IdentityAuthenService"
+          "SurveyService"
         ]
       }
     },
-    "/v1/identity-authen-api/update_password/{userId}": {
-      "put": {
-        "operationId": "IdentityAuthenService_UpdatePassword",
+    "/v1/survey-api/{ctx.domain_id}/surveys": {
+      "post": {
+        "operationId": "CreateSurvey",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/identity_authen_apiMessageResponse"
+              "$ref": "#/definitions/survey_apiSurveyResponse"
             }
           },
           "default": {
@@ -310,7 +449,7 @@
         },
         "parameters": [
           {
-            "name": "userId",
+            "name": "ctx.domain_id",
             "in": "path",
             "required": true,
             "type": "string"
@@ -323,9 +462,78 @@
               "type": "object",
               "properties": {
                 "ctx": {
-                  "$ref": "#/definitions/identity_authen_apiContext"
+                  "type": "object",
+                  "properties": {
+                    "access_token": {
+                      "type": "string"
+                    },
+                    "meta": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "string"
+                      }
+                    }
+                  }
                 },
-                "password": {
+                "data": {
+                  "$ref": "#/definitions/survey_apiSurvey"
+                }
+              }
+            }
+          }
+        ],
+        "tags": [
+          "SurveyService"
+        ]
+      },
+      "put": {
+        "operationId": "UpdateSurveyById",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/survey_apiSurveyResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "ctx.domain_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "ctx": {
+                  "type": "object",
+                  "properties": {
+                    "access_token": {
+                      "type": "string"
+                    },
+                    "meta": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "data": {
+                  "$ref": "#/definitions/survey_apiSurvey"
+                },
+                "value": {
                   "type": "string"
                 }
               }
@@ -333,18 +541,18 @@
           }
         ],
         "tags": [
-          "IdentityAuthenService"
+          "SurveyService"
         ]
       }
     },
-    "/v1/identity-authen-api/verify-forgot-password": {
+    "/v1/survey-api/{ctx.domain_id}/surveys/@all/getAll": {
       "get": {
-        "operationId": "IdentityAuthenService_VerifyForgotPassword",
+        "operationId": "GetAllSurvey",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/identity_authen_apiMessageResponse"
+              "$ref": "#/definitions/survey_apiListSurveyResponse"
             }
           },
           "default": {
@@ -356,25 +564,57 @@
         },
         "parameters": [
           {
-            "name": "ctx.accessToken",
+            "name": "ctx.domain_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "ctx.access_token",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "search",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "request_payload",
             "in": "query",
             "required": false,
             "type": "string"
           }
         ],
         "tags": [
-          "IdentityAuthenService"
+          "SurveyService"
         ]
       }
     },
-    "/v1/identity-authen-api/verify-user": {
+    "/v1/survey-api/{ctx.domain_id}/surveys/approveBySurveyId/{value}": {
       "get": {
-        "operationId": "IdentityAuthenService_VerifyUser",
+        "operationId": "ApproveBySurveyId",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/identity_authen_apiMessageResponse"
+              "$ref": "#/definitions/survey_apiStringResponse"
             }
           },
           "default": {
@@ -386,190 +626,262 @@
         },
         "parameters": [
           {
-            "name": "ctx.accessToken",
+            "name": "ctx.domain_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "value",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "ctx.access_token",
             "in": "query",
             "required": false,
             "type": "string"
           }
         ],
         "tags": [
-          "IdentityAuthenService"
+          "SurveyService"
+        ]
+      }
+    },
+    "/v1/survey-api/{ctx.domain_id}/surveys/deleteById/{value}": {
+      "delete": {
+        "operationId": "DeleteSurveyById",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/survey_apiStringResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "ctx.domain_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "value",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "ctx.access_token",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "SurveyService"
+        ]
+      }
+    },
+    "/v1/survey-api/{ctx.domain_id}/surveys/getByUserCreate/{value}": {
+      "get": {
+        "operationId": "GetSurveyByUserCreate",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/survey_apiListSurveyResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "ctx.domain_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "value",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "ctx.access_token",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "SurveyService"
+        ]
+      }
+    },
+    "/v1/survey-api/{ctx.domain_id}/surveys/getByUserJoin/{value}": {
+      "get": {
+        "operationId": "GetSurveyByUserJoin",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/survey_apiListSurveyResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "ctx.domain_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "value",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "ctx.access_token",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "SurveyService"
+        ]
+      }
+    },
+    "/v1/survey-api/{ctx.domain_id}/surveys/get_by_tenant/{value}": {
+      "get": {
+        "operationId": "GetSurveyByTenant",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/survey_apiListSurveyResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "ctx.domain_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "value",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "ctx.access_token",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "SurveyService"
+        ]
+      }
+    },
+    "/v1/survey-api/{ctx.domain_id}/surveys/{value}": {
+      "get": {
+        "operationId": "GetSurveyById",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/survey_apiSurveyResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "ctx.domain_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "value",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "ctx.access_token",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "SurveyService"
         ]
       }
     }
   },
   "definitions": {
-    "identity_authen_apiContext": {
+    "ListRequestFilter": {
       "type": "object",
       "properties": {
-        "accessToken": {
+        "key": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        },
+        "operator": {
           "type": "string"
         }
       }
     },
-    "identity_authen_apiForgotPasswordRequest": {
-      "type": "object",
-      "properties": {
-        "data": {
-          "type": "string"
-        }
-      }
-    },
-    "identity_authen_apiLoginRequest": {
-      "type": "object",
-      "properties": {
-        "ctx": {
-          "$ref": "#/definitions/identity_authen_apiContext"
-        },
-        "type": {
-          "type": "string"
-        },
-        "username": {
-          "type": "string"
-        },
-        "password": {
-          "type": "string"
-        },
-        "otp": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "requestId": {
-          "type": "string"
-        },
-        "typeMfa": {
-          "type": "string"
-        }
-      }
-    },
-    "identity_authen_apiLoginResponse": {
-      "type": "object",
-      "properties": {
-        "token": {
-          "type": "string"
-        },
-        "errorCode": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "message": {
-          "type": "string"
-        }
-      }
-    },
-    "identity_authen_apiMessageResponse": {
-      "type": "object",
-      "properties": {
-        "ok": {
-          "type": "boolean"
-        },
-        "message": {
-          "type": "string"
-        }
-      }
-    },
-    "identity_authen_apiMfa": {
-      "type": "object",
-      "properties": {
-        "type": {
-          "type": "string"
-        },
-        "enabled": {
-          "type": "boolean"
-        },
-        "secret": {
-          "type": "string"
-        },
-        "publicData": {
-          "type": "string"
-        },
-        "configured": {
-          "type": "boolean"
-        },
-        "url": {
-          "type": "string"
-        }
-      }
-    },
-    "identity_authen_apiMfaResponse": {
-      "type": "object",
-      "properties": {
-        "mfas": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/identity_authen_apiMfa"
-          }
-        }
-      }
-    },
-    "identity_authen_apiPrepareLoginRequest": {
-      "type": "object",
-      "properties": {
-        "ctx": {
-          "$ref": "#/definitions/identity_authen_apiContext"
-        }
-      }
-    },
-    "identity_authen_apiPrepareLoginResponse": {
-      "type": "object",
-      "properties": {
-        "token": {
-          "type": "string"
-        },
-        "errorCode": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "message": {
-          "type": "string"
-        },
-        "requestId": {
-          "type": "string"
-        },
-        "typeMfa": {
-          "type": "string"
-        },
-        "availableMfas": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          }
-        },
-        "secret": {
-          "type": "string"
-        },
-        "url": {
-          "type": "string"
-        }
-      }
-    },
-    "identity_authen_apiUpdatePasswordRequest": {
-      "type": "object",
-      "properties": {
-        "ctx": {
-          "$ref": "#/definitions/identity_authen_apiContext"
-        },
-        "userId": {
-          "type": "string"
-        },
-        "password": {
-          "type": "string"
-        }
-      }
-    },
-    "identity_authen_apiUserRegisterRequest": {
-      "type": "object",
-      "properties": {
-        "fullName": {
-          "type": "string"
-        },
-        "email": {
-          "type": "string"
-        },
-        "username": {
-          "type": "string"
-        }
-      }
+    "ListRequestOrderType": {
+      "type": "string",
+      "enum": [
+        "ASC",
+        "DESC"
+      ],
+      "default": "ASC"
     },
     "protobufAny": {
       "type": "object",
@@ -595,6 +907,171 @@
           "items": {
             "$ref": "#/definitions/protobufAny"
           }
+        }
+      }
+    },
+    "survey_apiCategory": {
+      "type": "object",
+      "properties": {
+        "category_id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "created_time": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "updated_time": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "domain_id": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "position": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "survey_apiCategoryResponse": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/survey_apiCategory"
+        }
+      }
+    },
+    "survey_apiContext": {
+      "type": "object",
+      "properties": {
+        "domain_id": {
+          "type": "string"
+        },
+        "access_token": {
+          "type": "string"
+        },
+        "meta": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "survey_apiListCategoryResponse": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/survey_apiCategory"
+          }
+        },
+        "total": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "survey_apiListSurveyResponse": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/survey_apiSurvey"
+          }
+        },
+        "total": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "survey_apiQuestion": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        },
+        "answers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "type": {
+          "type": "string"
+        },
+        "category_id": {
+          "type": "string"
+        },
+        "position": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "survey_apiStringResponse": {
+      "type": "object"
+    },
+    "survey_apiSurvey": {
+      "type": "object",
+      "properties": {
+        "survey_id": {
+          "type": "string"
+        },
+        "user_id_create": {
+          "type": "string"
+        },
+        "user_id_verify": {
+          "type": "string"
+        },
+        "user_id_join": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "questions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/survey_apiQuestion"
+          }
+        },
+        "status": {
+          "type": "string"
+        },
+        "created_time": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "updated_time": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "domain_id": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "survey_apiSurveyResponse": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "$ref": "#/definitions/survey_apiSurvey"
         }
       }
     }

@@ -1,5 +1,5 @@
-grpc_port: ":9000"
-http_port: ":9001"
+grpc_port: ":11000"
+http_port: ":11001"
 mongo_db:
   url: "mongodb://admin:admin@localhost:27017"
   db_name: "identity-authen-api"
@@ -10,10 +10,31 @@ redis_cache:
 grpc_conn:
   address: ":11000"
   timeout: 20s
-  access_token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl9pbmZvIjp7ImF1dGhlbnRpY2F0aW9uX2RvbmUiOnRydWUsInN1YmplY3QiOiJzZXJ2aWNlIiwiZXhwIjozMDU0MTEwMDM2LCJyb2xlIjoiYWRtaW4iLCJwZXJtaXNzaW9uX2FsbCI6dHJ1ZX0sImV4cCI6MzA1NDExMDAzNn0.vRMlXrwbSCsnJ0K78PzS2lHZ60tYxNrpZ31U6xIusqo"
+  access_token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl9pbmZvIjp7ImF1dGhlbnRpY2F0aW9uX2RvbmUiOnRydWUsInN1YmplY3QiOiJzZXJ2aWNlOmNvbW1vbiIsImV4cCI6MzA1NDExMDAzNiwicm9sZSI6WyJhZG1pbiJdLCJwZXJtaXNzaW9uX2FsbCI6dHJ1ZX0sImV4cCI6MzA1NDExMDAzNn0.QEiyFLjGCkICxUn9tSDfnz3Z4xbqJc4hp743GrbPWwY"
 key_jwt: "thteam47"
 exp: 24h
 totp_secret: "thteam47"
 time_out_redis: 10s
 time_request_id: 5m
 time_email_otp: 5m
+components:
+  user-service:
+    address: ":11000"
+    timeout: 20s
+    access_token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl9pbmZvIjp7ImF1dGhlbnRpY2F0aW9uX2RvbmUiOnRydWUsInN1YmplY3QiOiJzZXJ2aWNlOmNvbW1vbiIsImV4cCI6MzA1NDExMDAzNiwicm9sZSI6WyJhZG1pbiJdLCJwZXJtaXNzaW9uX2FsbCI6dHJ1ZX0sImV4cCI6MzA1NDExMDAzNn0.QEiyFLjGCkICxUn9tSDfnz3Z4xbqJc4hp743GrbPWwY"
+  category-repository:
+    mongo-client-wrapper:
+      url: "mongodb://admin:admin@localhost:27017/"
+      database: "survey-api"
+  survey-repository:
+    mongo-client-wrapper:
+      url: "mongodb://admin:admin@localhost:27017/"
+      database: "survey-api"
+  identity-service:
+    address: ":10000"
+    timeout: 20s
+    access_token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl9pbmZvIjp7ImF1dGhlbnRpY2F0aW9uX2RvbmUiOnRydWUsInN1YmplY3QiOiJzZXJ2aWNlOmNvbW1vbiIsImV4cCI6MzA1NDExMDAzNiwicm9sZSI6WyJhZG1pbiJdLCJwZXJtaXNzaW9uX2FsbCI6dHJ1ZX0sImV4cCI6MzA1NDExMDAzNn0.QEiyFLjGCkICxUn9tSDfnz3Z4xbqJc4hp743GrbPWwY"
+  recommend-service:
+    address: ":14000"
+    timeout: 20s
+    access_token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl9pbmZvIjp7ImF1dGhlbnRpY2F0aW9uX2RvbmUiOnRydWUsInN1YmplY3QiOiJzZXJ2aWNlOmNvbW1vbiIsImV4cCI6MzA1NDExMDAzNiwicm9sZSI6WyJhZG1pbiJdLCJwZXJtaXNzaW9uX2FsbCI6dHJ1ZX0sImV4cCI6MzA1NDExMDAzNn0.QEiyFLjGCkICxUn9tSDfnz3Z4xbqJc4hp743GrbPWwY"

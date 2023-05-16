@@ -1,42 +1,31 @@
 package servergrpc
 
 import (
+	defaultcomponent "github.com/thteam47/go-survey-api/pkg/component/default"
 	"net"
 
-	"github.com/thteam47/go-identity-authen-api/errutil"
-	"github.com/thteam47/go-identity-authen-api/pkg/db"
-	"github.com/thteam47/go-identity-authen-api/pkg/grpcapp"
-	grpcauth "github.com/thteam47/go-identity-authen-api/pkg/grpcutil"
-	"github.com/thteam47/go-identity-authen-api/pkg/pb"
-	"github.com/thteam47/go-identity-authen-api/pkg/repository"
-	repoimpl "github.com/thteam47/go-identity-authen-api/pkg/repository/default"
-	"github.com/thteam47/go-identity-authen-api/util"
+	"github.com/thteam47/common-libs/confg"
+	"github.com/thteam47/common/handler"
+	"github.com/thteam47/go-survey-api/errutil"
+	"github.com/thteam47/go-survey-api/pkg/component"
+	"github.com/thteam47/go-survey-api/pkg/grpcapp"
+	"github.com/thteam47/common/api/survey-api"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 )
 
-func Run(lis net.Listener, handler *db.Handler) error {
-	authRepository := grpcauth.NewAuthInterceptor(handler)
-	grpcConfig, err := util.NewGrpcClientConnWithConfig(handler.GrpcConnConfig)
+func Run(lis net.Listener, properties confg.Confg, handler *handler.Handler) error {
+	componentFactory, err := defaultcomponent.NewComponentFactory(properties.Sub("components"), handler)
 	if err != nil {
-		return errutil.Wrapf(err, "util.NewGrpcClientConnWithConfig")
+		return errutil.Wrap(err, "NewComponentFactory")
 	}
-	userService, err := repoimpl.NewUserRepo(grpcConfig)
+	componentsContainer, err := component.NewComponentsContainer(componentFactory)
 	if err != nil {
-		return errutil.Wrapf(err, "repoimpl.NewUserRepo")
+		return errutil.Wrap(err, "NewComponentsContainer")
 	}
-	jwtRepository := repoimpl.NewJwtRepo(handler)
-	if err != nil {
-		return errutil.Wrapf(err, "repoimpl.NewUserRepo")
-	}
-	authenInfoRepository := repoimpl.NewAuthenInfoRepo(handler, userService, jwtRepository)
-	if err != nil {
-		return errutil.Wrapf(err, "repoimpl.NewUserRepo")
-	}
-	componentContanier := repository.NewComponentContanier(userService, authenInfoRepository, jwtRepository, authRepository, handler)
 	serverOptions := []grpc.ServerOption{}
 	s := grpc.NewServer(serverOptions...)
-	pb.RegisterIdentityAuthenServiceServer(s, grpcapp.NewIdentityAuthenService(handler, componentContanier, userService, authRepository, authenInfoRepository))
+	pb.RegisterSurveyServiceServer(s, grpcapp.NewSurveyService(componentsContainer))
 	reflection.Register(s)
 	return s.Serve(lis)
 }
