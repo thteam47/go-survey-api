@@ -23,7 +23,7 @@ func (inst *SurveyService) FakeCategories(ctx context.Context, req *pb.FakeCateg
 	for i := 1; i <= int(req.NumberCategory); i++ {
 		category := &models.Category{
 			DomainId: req.Ctx.DomainId,
-			Name:     gofakeit.Fruit(),
+			Name:     gofakeit.Fruit() + " " + gofakeit.Vegetable(),
 			Position: int32(i),
 		}
 		_, err := inst.componentsContainer.CategoryRepository().Create(userContext, category)

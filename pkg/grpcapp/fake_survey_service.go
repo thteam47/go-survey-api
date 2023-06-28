@@ -33,6 +33,7 @@ func (inst *SurveyService) FakeSurveys(ctx context.Context, req *pb.FakeSurveyRe
 	}
 	for i := 1; i <= int(req.NumberSurvey); i++ {
 		categories, err := inst.componentsContainer.CategoryRepository().FindAll(userContext.Clone().EscalatePrivilege(), &entity.FindRequest{
+			Limit: -1,
 			Filters: []entity.FindRequestFilter{
 				entity.FindRequestFilter{
 					Key:      "DomainId",
